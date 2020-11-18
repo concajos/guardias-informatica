@@ -1,0 +1,103 @@
+
+    
+entity CMBDAplicacion {
+	CMBDAplicacionCodigo String required,
+	CMBDAplicacionNombre String required,
+
+	CMBDAplicacionRecursoCodigo Integer,
+ 	CMBDAplicacionTipo CMBDAplicacionTipoE required,
+	CMBDAplicacionAmbito CMBDAplicacionAmbitoE required,
+	CMBDAplicacionArea CMBDAplicacionAreaHospitalE required,
+ 
+ 	CMBDBaseDatosCodigo Integer,
+    CMBDAplicacionMantenimiento String,
+    CMBDAplicacionMantenimientoGuardia String    
+}
+
+enum CMBDAplicacionTipoE {
+    CLINICA,GESTION,UTILIDAD
+}
+
+enum CMBDAplicacionAmbitoE {
+    PROPIA,DEPARTAMENTAL,CORPORATIVA
+}
+
+enum CMBDAplicacionAreaHospitalE {
+    URG,HOSP,BQ,CEX,OBS,LAB,FARM,RX,MAPEOS,DIGITALIZACION,CUADROMANDOS
+}
+
+entity CMBDServidor {
+	CMBDServidoresNombreEquipo String required,
+	CMBDServidoresSistemaOperativo String,
+	CMBDServidoresIP String required,
+	CMBDServidoresVLAN String,
+	CMBDServidoresDOMINIO String required
+}
+
+// an ignored comment
+/** not an ignored comment */
+entity CMBDIntegracion {
+	CMBDIntegracionDescripcion String required,
+	CMBDIntegracionTipo CMBDIntegracionTipoE
+	CMBDIntegracionRuta String,
+	CMBDIntegracionDireccionalidad CMBDIntegracionDireccionalidadE
+}
+enum CMBDIntegracionDireccionalidadE{
+    NINGUNA,UNIDIRECCIONAL,BIDIRECCIONAL
+}
+enum CMBDIntegracionTipoE{
+    CLINICA,GESTION,UTILIDAD
+}
+
+entity CMBDProveedor {
+	CMBDProveedorNombre String required,
+	CMBDProveedorResponsable String,
+	CMBDProveedorContactoTipo1 String,
+	CMBDProveedorContacto1 String,
+	CMBDProveedorTelefono1 String,
+	CMBDProveedorEmail1 String,
+	CMBDProveedorContactoTipo2 String,
+	CMBDProveedorContacto2 String,
+	CMBDProveedorTelefono2 String,
+	CMBDProveedorEmail2 String,
+	CMBDProveedorContactoTipo3 String,
+	CMBDProveedorContacto3 String,
+	CMBDProveedorTelefono3 String,
+	CMBDProveedorEmail3 String
+}
+
+entity CMBDResponsable {
+	CMBDResponsableNombre String required,
+	CMBDResponsableCorreo String required,
+	CMBDResponsableTelefono String required
+}
+
+entity CMBDBasesDatos {
+	CMBDBasesDatosNombre String required,
+	CMBDBasesDatosDescripcion String required,
+	CMBDBasesDatosComentario String
+}
+
+
+
+// Relaciones
+
+
+
+relationship OneToMany {
+	CMBDAplicacion to CMBDBasesDatos{AplicacionBd},
+	CMBDServidor to CMBDAplicacion {ServidorAplicacion},
+    CMBDProveedor to CMBDAplicacion{ProveedorAplicacion}
+
+	}
+
+
+relationship ManyToMany {
+	CMBDAplicacion to CMBDResponsable{AplicacionResponsable}
+    CMBDAplicacion to CMBDIntegracion{AplicacionIntegracion}
+
+}
+
+
+
+
